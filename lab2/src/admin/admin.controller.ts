@@ -15,8 +15,9 @@ import { AdminService } from './admin.service';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @Get()
-  getHello(): object {
+  @Get('/:id')
+  getHello(@Param() param: object): object {
+    console.log(param);
     return this.adminService.getHello();
   }
 
@@ -26,18 +27,22 @@ export class AdminController {
   }
 
   @Get('/user/:id')
-  getUserById(@Param('id') id: string): object {
+  getUserById(@Param('id') id: any): object {
     console.log(id);
+
     return this.adminService.getUserById(id);
   }
 
   @Get('/user')
   getUserByQuery(@Query() query: object): object {
-    return this.adminService.getUserByQuery(query);
+    console.log('query', query);
+    return query;
+    //return this.adminService.getUserByQuery(query);
   }
 
   @Post('/user')
   postUserByBody(@Body() body: object): object {
+    console.log(body);
     return this.adminService.postUserByBody(body);
   }
 
@@ -59,5 +64,14 @@ export class AdminController {
   @Put('/updateUser/:id')
   updateUser(@Param('id') id: string, @Body() body: object): object {
     return this.adminService.updateUser(id, body);
+  }
+
+  @Post('/practice/:id')
+  roman(@Param() param: any, @Query() query: object, @Body() body: object) {
+    console.log('param  ===', param);
+    console.log('query  ===', query);
+    console.log('body  ===', body);
+
+    return body;
   }
 }
